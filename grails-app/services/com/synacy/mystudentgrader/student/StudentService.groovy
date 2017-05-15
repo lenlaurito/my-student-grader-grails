@@ -5,8 +5,8 @@ import grails.transaction.Transactional
 @Transactional
 class StudentService {
 
-	public List<Student> fetchAllStudents() {
-		return Student.findAll()
+	public List<Student> fetchStudents(Integer max, Integer offset) {
+		return Student.list([offset: offset, max: max, sort: "id", order: "asc"])
 	}
 
 	public Student fetchById(Long id) {

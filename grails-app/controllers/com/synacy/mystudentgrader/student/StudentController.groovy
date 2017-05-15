@@ -9,7 +9,10 @@ class StudentController {
 	StudentService studentService
 
 	def fetchAllStudents() {
-		List<Student> students = studentService.fetchAllStudents()
+		Integer max = params.max ? Integer.parseInt(params.max) : null
+		Integer offset = params.max ? Integer.parseInt(params.offset) : null
+
+		List<Student> students = studentService.fetchStudents(max, offset)
 		respond(students)
 	}
 
