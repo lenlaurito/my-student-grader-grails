@@ -1,5 +1,7 @@
 package com.synacy.mystudentgrader.student
 
+import com.synacy.mystudentgrader.student.com.synacy.mystudentgrader.InvalidRequestException
+import com.synacy.mystudentgrader.student.com.synacy.mystudentgrader.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 
 class StudentController {
@@ -20,6 +22,9 @@ class StudentController {
 
 	def fetchStudent(Long studentId) {
 		Student student = studentService.fetchById(studentId)
+		if (!student) {
+			throw new ResourceNotFoundException("Student not found")
+		}
 		respond(student)
 	}
 
@@ -30,7 +35,11 @@ class StudentController {
 		String yearLevel = request.JSON.yearLevel ?: null
 
 		Gender gender = Gender.valueOfGender(genderString)
-		//If gender is null, handle request error
+
+		if (!name || !gender || !age || !yearLevel) {
+			throw new InvalidRequestException("Invalid request.")
+		}
+
 
 		Student student = studentService.createNewStudent(name, age, gender, yearLevel)
 		respond(student, [status: HttpStatus.CREATED])
@@ -43,18 +52,38 @@ class StudentController {
 		String yearLevel = request.JSON.yearLevel ?: null
 
 		Gender gender = Gender.valueOfGender(genderString)
-		//If gender is null, handle request error
+
+		if (!name || !gender || !age || !yearLevel) {
+			throw new InvalidRequestException("Invalid request.")
+		}
 
 		Student student = studentService.fetchById(studentId)
+		if (!student) {
+			throw new ResourceNotFoundException("Student not found")
+		}
 		student = studentService.updateStudent(student, name, age, gender, yearLevel)
 		respond(student)
 	}
 
 	def removeStudent(Long studentId) {
 		Student student = studentService.fetchById(studentId)
+		if (!student) {
+			throw new ResourceNotFoundException("Student not found")
+		}
 		studentService.deleteStudent(student)
 
 		render(status: HttpStatus.NO_CONTENT)
+	}
+
+
+	def handleResourceNotFoundException(ResourceNotFoundException e) {
+		response.status = HttpStatus.NOT_FOUND.value()
+		respond([error: e.getMessage()])
+	}
+
+	def handleInvalidRequestException(InvalidRequestException e) {
+		response.status = HttpStatus.UNPROCESSABLE_ENTITY.value()
+		respond([error: e.getMessage()])
 	}
 
 }
