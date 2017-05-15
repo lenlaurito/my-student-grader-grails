@@ -13,7 +13,9 @@ class StudentController {
 		Integer offset = params.max ? Integer.parseInt(params.offset) : null
 
 		List<Student> students = studentService.fetchStudents(max, offset)
-		respond(students)
+		Integer studentCount = studentService.fetchTotalNumberOfStudents()
+		Map<String, Object> paginatedStudentDetails = [totalRecords: studentCount, records: students]
+		respond(paginatedStudentDetails)
 	}
 
 	def fetchStudent(Long studentId) {

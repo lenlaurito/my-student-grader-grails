@@ -9,6 +9,10 @@ class StudentService {
 		return Student.list([offset: offset, max: max, sort: "id", order: "asc"])
 	}
 
+	public Integer fetchTotalNumberOfStudents() {
+		return Student.count()
+	}
+
 	public Student fetchById(Long id) {
 		return Student.findById(id)
 	}

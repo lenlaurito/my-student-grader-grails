@@ -19,11 +19,11 @@ class StudentControllerSpec extends Specification {
 	def cleanup() {
 	}
 
-	void "fetchAllStudents should respond with all the students"() {
+	void "fetchAllStudents should respond with the correct student"() {
 		given:
 		Student student1 = new Student(name: "Jane", age: 20, yearLevel: "FIRST_YEAR", gender: Gender.FEMALE)
 		Student student2 = new Student(name: "John", age: 22, yearLevel: "SECOND_YEAR", gender: Gender.MALE)
-		studentService.fetchAllStudents() >> [student1, student2]
+		studentService.fetchStudents(null, null) >> [student1, student2]
 
 		when:
 		controller.fetchAllStudents()
