@@ -35,7 +35,7 @@ class StudentController {
 		String yearLevel = request.JSON.yearLevel ?: null
 
 		Student student = studentService.fetchById(studentId)
-		studentService.updateStudent(student, name, age, gender, yearLevel)
+		student = studentService.updateStudent(student, name, age, gender, yearLevel)
 		respond(student)
 	}
 

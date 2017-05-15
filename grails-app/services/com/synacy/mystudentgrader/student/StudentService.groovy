@@ -27,7 +27,7 @@ class StudentService {
 		student.age = age
 		student.gender = gender
 		student.yearLevel = yearLevel
-		student.save()
+		return student.save()
 	}
 
 	public deleteStudent(Student student) {
