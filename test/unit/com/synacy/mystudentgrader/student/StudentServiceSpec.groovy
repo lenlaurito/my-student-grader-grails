@@ -19,7 +19,7 @@ class StudentServiceSpec extends Specification {
 
 	void "fetchById should return the student with the given id"() {
 		given:
-		Student student = new Student(name: "John", age: 22, yearLevel: "FIRST_YEAR", gender: "MALE")
+		Student student = new Student(name: "John", age: 22, yearLevel: "FIRST_YEAR", gender: Gender.MALE)
 		student.save()
 
 		when:
@@ -37,7 +37,7 @@ class StudentServiceSpec extends Specification {
 		String name = "Jane"
 		int age = 20
 		String yearLevel = "THIRD_YEAR"
-		String gender = "FEMALE"
+		Gender gender = Gender.FEMALE
 
 		when:
 		Student createdStudent = service.createNewStudent(name, age, gender, yearLevel)

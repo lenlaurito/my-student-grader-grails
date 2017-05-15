@@ -22,20 +22,26 @@ class StudentController {
 	}
 
 	def createStudent() {
-		String gender = request.JSON.gender ?: null
+		String genderString = request.JSON.gender ?: null
 		Integer age = request.JSON.age ?: null
 		String name = request.JSON.name ?: null
 		String yearLevel = request.JSON.yearLevel ?: null
+
+		Gender gender = Gender.valueOfGender(genderString)
+		//If gender is null, handle request error
 
 		Student student = studentService.createNewStudent(name, age, gender, yearLevel)
 		respond(student, [status: HttpStatus.CREATED])
 	}
 
 	def updateStudent(Long studentId) {
-		String gender = request.JSON.gender ?: null
+		String genderString = request.JSON.gender ?: null
 		Integer age = request.JSON.age ?: null
 		String name = request.JSON.name ?: null
 		String yearLevel = request.JSON.yearLevel ?: null
+
+		Gender gender = Gender.valueOfGender(genderString)
+		//If gender is null, handle request error
 
 		Student student = studentService.fetchById(studentId)
 		student = studentService.updateStudent(student, name, age, gender, yearLevel)
