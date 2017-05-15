@@ -21,8 +21,8 @@ class StudentControllerSpec extends Specification {
 
 	void "fetchAllStudents should respond with all the students"() {
 		given:
-		Student student1 = new Student(name: "Jane", age: 20, yearLevel: "FIRST_YEAR", gender: "FEMALE")
-		Student student2 = new Student(name: "John", age: 22, yearLevel: "SECOND_YEAR", gender: "MALE")
+		Student student1 = new Student(name: "Jane", age: 20, yearLevel: "FIRST_YEAR", gender: Gender.FEMALE)
+		Student student2 = new Student(name: "John", age: 22, yearLevel: "SECOND_YEAR", gender: Gender.MALE)
 		studentService.fetchAllStudents() >> [student1, student2]
 
 		when:
@@ -32,17 +32,17 @@ class StudentControllerSpec extends Specification {
 		response.status == HttpStatus.OK.value()
 		response.json.size() == 2
 		response.json.find {
-			it.name == "Jane" && it.age == 20 && it.yearLevel == "FIRST_YEAR" && it.gender == "FEMALE"
+			it.name == "Jane" && it.age == 20 && it.yearLevel == "FIRST_YEAR" && it.gender.name == Gender.FEMALE.name()
 		} != null
 		response.json.find {
-			it.name == "John" && it.age == 22 && it.yearLevel == "SECOND_YEAR" && it.gender == "MALE"
+			it.name == "John" && it.age == 22 && it.yearLevel == "SECOND_YEAR" && it.gender.name == Gender.MALE.name()
 		} != null
 	}
 
 	void "fetchStudent should respond with the student which has the specified id"() {
 		given:
 		Long studentId = 2L
-		Student student = new Student(name: "Jane", age: 20, yearLevel: "FIRST_YEAR", gender: "FEMALE")
+		Student student = new Student(name: "Jane", age: 20, yearLevel: "FIRST_YEAR", gender: Gender.FEMALE)
 		studentService.fetchById(studentId) >> student
 
 		when:
@@ -53,7 +53,7 @@ class StudentControllerSpec extends Specification {
 		response.json.name == "Jane"
 		response.json.age == 20
 		response.json.yearLevel == "FIRST_YEAR"
-		response.json.gender == "FEMALE"
+		response.json.gender.name == Gender.FEMALE.name()
 	}
 
 	void "createStudent should respond with the newly created student with the details specified"() {
@@ -61,9 +61,9 @@ class StudentControllerSpec extends Specification {
 		String name = "John"
 		int age = 19
 		String yearLevel = "FIRST_YEAR"
-		String gender = "MALE"
+		Gender gender = Gender.MALE
 
-		request.json = [name: name, age: age, yearLevel: yearLevel, gender: gender]
+		request.json = [name: name, age: age, yearLevel: yearLevel, gender: gender.name()]
 
 		Student student = new Student(name: name, age: age, yearLevel: yearLevel, gender: gender)
 
@@ -78,6 +78,6 @@ class StudentControllerSpec extends Specification {
 		response.json.name == name
 		response.json.age == age
 		response.json.yearLevel == yearLevel
-		response.json.gender == gender
+		response.json.gender.name == gender.name()
 	}
 }

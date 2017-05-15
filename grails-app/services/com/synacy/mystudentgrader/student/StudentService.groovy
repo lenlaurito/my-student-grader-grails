@@ -13,7 +13,7 @@ class StudentService {
 		return Student.findById(id)
 	}
 
-	public Student createNewStudent(String name, int age, String gender, String yearLevel) {
+	public Student createNewStudent(String name, int age, Gender gender, String yearLevel) {
 		Student student = new Student()
 		student.name = name
 		student.age = age
@@ -22,7 +22,7 @@ class StudentService {
 		return student.save()
 	}
 
-	public updateStudent(Student student, String name, int age, String gender, String yearLevel) {
+	public updateStudent(Student student, String name, int age, Gender gender, String yearLevel) {
 		student.name = name
 		student.age = age
 		student.gender = gender

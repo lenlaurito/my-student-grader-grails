@@ -7,7 +7,7 @@ class Student {
 	Long id
 	String name
 	Integer age
-	String gender
+	Gender gender
 	String yearLevel
 
 	static constraints = {
